@@ -1,0 +1,104 @@
+{
+  "info": {
+    "name": "TP2 - Architecture Microservices (ENSET)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "productId",
+      "value": "PASTE_PRODUCT_ID_FROM_GET_PRODUCTS"
+    }
+  ],
+  "item": [
+    {
+      "name": "01 Get customers",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/customers"
+      }
+    },
+    {
+      "name": "02 Get products",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/products"
+      }
+    },
+    {
+      "name": "03 Create customer",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/customers",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"Fatima Test\", \"email\": \"fatima@example.test\"}"
+        }
+      }
+    },
+    {
+      "name": "04 Create product",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/products",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"Headset\", \"price\": 350, \"quantity\": 40}"
+        }
+      }
+    },
+    {
+      "name": "05 Get bills",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/bills"
+      }
+    },
+    {
+      "name": "06 Create bill",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/bills",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"customerId\": 1, \"items\": [{\"productId\": \"{{productId}}\", \"quantity\": 2}]}"
+        }
+      }
+    },
+    {
+      "name": "07 Get bill by id",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/bills/1"
+      }
+    },
+    {
+      "name": "08 Get bills for customer",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/bills?customerId=1"
+      }
+    }
+  ]
+}
