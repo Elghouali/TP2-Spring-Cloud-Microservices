@@ -1,0 +1,4 @@
+app:
+  billing:
+    currency: MAD
+    max-items: 20

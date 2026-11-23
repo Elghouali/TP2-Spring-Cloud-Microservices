@@ -1,0 +1,74 @@
+services:
+  discovery-service:
+    build:
+      context: .
+      args:
+        MODULE: discovery-service
+    ports:
+    - 8761:8761
+  config-service:
+    build:
+      context: .
+      args:
+        MODULE: config-service
+    ports:
+    - 8888:8888
+  customer-service:
+    build:
+      context: .
+      args:
+        MODULE: customer-service
+    environment:
+    - EUREKA_URL=http://discovery-service:8761/eureka/
+    - CONFIG_SERVER_URL=http://config-service:8888
+    depends_on:
+    - discovery-service
+    - config-service
+  inventory-service:
+    build:
+      context: .
+      args:
+        MODULE: inventory-service
+    environment:
+    - EUREKA_URL=http://discovery-service:8761/eureka/
+    - CONFIG_SERVER_URL=http://config-service:8888
+    depends_on:
+    - discovery-service
+    - config-service
+  billing-service:
+    build:
+      context: .
+      args:
+        MODULE: billing-service
+    environment:
+    - EUREKA_URL=http://discovery-service:8761/eureka/
+    - CONFIG_SERVER_URL=http://config-service:8888
+    depends_on:
+    - discovery-service
+    - config-service
+    - customer-service
+    - inventory-service
+  gateway-service:
+    build:
+      context: .
+      args:
+        MODULE: gateway-service
+    ports:
+    - 8080:8080
+    environment:
+    - EUREKA_URL=http://discovery-service:8761/eureka/
+    - CONFIG_SERVER_URL=http://config-service:8888
+    - SPRING_PROFILES_ACTIVE=dynamic
+    depends_on:
+    - discovery-service
+    - config-service
+    - customer-service
+    - inventory-service
+    - billing-service
+  web-client:
+    build:
+      context: ./web-client
+    ports:
+    - 4200:80
+    depends_on:
+    - gateway-service
